@@ -11,3 +11,25 @@ class XMLToJsonTest(TestCase):
     def test_get_raw_data(self, mock_requests):
         xml2json.get_raw_data("any path")
         mock_requests.assert_called_with("any path")
+
+    @mock.patch.object(xml2json, 'get_raw_data')
+    def test_get_items(self, mock_get_raw_data):
+        mock_get_raw_data.return_value = """
+        <rss>
+            <channel>
+                <title>Prognoos Test</title>
+                <item>
+                    <title>item 1</title>
+                </item>
+                <item>
+                    <title>item 2</title>
+                </item>
+                <item>
+                    <title>item 3</title>
+                </item>
+            </channel>
+        </rss>
+        """
+        items = xml2json.get_items()
+        self.assertIsInstance(items, list)
+        self.assertEqual(3, len(items))
