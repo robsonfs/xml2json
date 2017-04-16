@@ -10,3 +10,9 @@ def get_items():
     raw_data = get_raw_data(path)
     soup = BeautifulSoup(raw_data, 'lxml')
     return soup.select('item')
+
+def format_price(string_price):
+    # formatted_price = string_price.replace('R$ ', '').replace(',', '.')
+    test_char = lambda c: c.isdigit() or c == ','
+    formatted_price = "".join(c for c in string_price if test_char(c))
+    return formatted_price.replace(',', '.')

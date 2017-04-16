@@ -33,3 +33,11 @@ class XMLToJsonTest(TestCase):
         items = xml2json.get_items()
         self.assertIsInstance(items, list)
         self.assertEqual(3, len(items))
+
+    def test_format_price_testcase_0(self):
+        price = xml2json.format_price("R$ 75,90")
+        self.assertEqual("75.90", price)
+
+    def test_format_price_testcase_1(self):
+        price = xml2json.format_price("$ 75,90")
+        self.assertEqual("75.90", price)
