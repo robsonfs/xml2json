@@ -1,6 +1,6 @@
+from bs4 import BeautifulSoup
 import requests
-from io import StringIO
 
-def get_xml_data(path):
+def get_raw_data(path):
     resp = requests.get(path)
-    return StringIO(resp.text)
+    return resp.text

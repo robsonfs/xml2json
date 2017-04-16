@@ -4,12 +4,10 @@
 
 from unittest import TestCase, mock
 import xml2json
-from io import StringIO
-import requests
 
 class XMLToJsonTest(TestCase):
 
     @mock.patch("xml2json.requests.get")
-    def test_get_xml_data(self, mock_requests):
-        xml2json.get_xml_data("any path")
+    def test_get_raw_data(self, mock_requests):
+        xml2json.get_raw_data("any path")
         mock_requests.assert_called_with("any path")
