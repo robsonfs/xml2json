@@ -16,3 +16,24 @@ def format_price(string_price):
     test_char = lambda c: c.isdigit() or c == ','
     formatted_price = "".join(c for c in string_price if test_char(c))
     return formatted_price.replace(',', '.')
+
+def item2dict(item):
+    dict_item = {}
+    dict_item['id'] = item.find("g:id").string
+    dict_item['name'] = item.find("title").string
+    dict_item['url'] = item.find("link").string
+    dict_item['img_url'] = item.find("g:image_link").string
+    dict_item['description'] = item.find("description").string
+    dict_item['price'] = format_price(item.find("g:price").string)
+    dict_item['priceSell'] = ""
+    dict_item['category'] = item.find("g:google_product_category").string
+    dict_item['categoryName'] = item.find("g:product_type").string
+    dict_item['installmentValue'] = []
+    dict_item['installmentQty'] = []
+    dict_item['locale'] = ''
+    dict_item['author'] = ''
+    dict_item['author_img'] = ''
+    dict_item['opcional_1'] = ''
+    dict_item['opcional_2'] = ''
+
+    return dict_item

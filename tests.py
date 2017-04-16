@@ -5,6 +5,7 @@
 from unittest import TestCase, mock
 import xml2json
 
+
 class XMLToJsonTest(TestCase):
 
     @mock.patch("xml2json.requests.get")
@@ -41,3 +42,39 @@ class XMLToJsonTest(TestCase):
     def test_format_price_testcase_1(self):
         price = xml2json.format_price("$ 75,90")
         self.assertEqual("75.90", price)
+
+    def test_item_to_dict_expected_keys(self):
+        expected_keys = [
+            'id', 'name', 'url', 'img_url', 'description', 'price', 'priceSell',
+            'category', 'categoryName', 'installmentValue', 'installmentQty',
+            'locale', 'author', 'author_img', 'opcional_1', 'opcional_2'
+        ]
+        item = """
+        <item>
+            <g:id>128</g:id>
+            <title>Bateria Compatível Positivo E4128Q-CD E412P-C</title>
+            <link>
+            http://prognoostest.commercesuite.com.br/informatica/bateria-compativel-positivo-e4128q-cd-e412p-c?parceiro=3322
+            </link>
+            <g:price>R$ 71,37</g:price>
+            <g:shipping_weight>100 g</g:shipping_weight>
+            <description>Bateria Compatível Positivo E4128Q-CD E412P-C</description>
+            <g:google_product_category>2082</g:google_product_category>
+            <g:image_link>
+            https://images.tcdn.com.br/img/img_prod/454682/bateria_compativel_positivo_e4128q_cd_e412p_c_128_1_20160202222537.jpg
+            </g:image_link>
+            <g:product_type>Informática</g:product_type>
+            <g:availability>in stock</g:availability>
+            <g:sale_price_effective_date/>
+            <g:identifier_exists>false</g:identifier_exists>
+            <g:mpn>128</g:mpn>
+            <g:installment>
+                <g:months>7</g:months>
+                <g:amount>R$ 11,02</g:amount>
+            </g:installment>
+            <g:condition>new</g:condition>
+        </item>
+        """
+        item = xml2json.BeautifulSoup(item, 'lxml')
+        dict_item = xml2json.item2dict(item)
+        self.assertTrue(all(key in dict_item.keys() for key in expected_keys))
