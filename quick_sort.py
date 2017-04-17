@@ -22,19 +22,7 @@ def get_smaller(l):
         return quicksort(l)[0]
     return []
 
-class TestQuickSort(TestCase):
 
-    def test_case_0(self):
-        self.assertEqual([], get_smaller([]))
-
-    def test_case_1(self):
-        self.assertEqual(0, get_smaller([0]))
-
-    def test_case_2(self):
-        self.assertEqual(0, get_smaller([1, 0, 3]))
-
-    def test_case_3(self):
-        self.assertEqual(2, get_smaller([4, 2, 2, 3]))
 
 if __name__ == '__main__':
     main()

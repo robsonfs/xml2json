@@ -4,7 +4,9 @@
 
 from unittest import TestCase, mock, skip
 from xml2json import XMLToJson
+from quick_sort import get_smaller
 import xml2json
+
 
 
 class XMLToJsonTest(TestCase):
@@ -109,3 +111,17 @@ class XMLToJsonTest(TestCase):
         # Retorna uma string json.
         xml2json.generate_json()
         mock_get_items.assert_called_with()
+
+class TestQuickSort(TestCase):
+
+    def test_case_0(self):
+        self.assertEqual([], get_smaller([]))
+
+    def test_case_1(self):
+        self.assertEqual(0, get_smaller([0]))
+
+    def test_case_2(self):
+        self.assertEqual(0, get_smaller([1, 0, 3]))
+
+    def test_case_3(self):
+        self.assertEqual(2, get_smaller([4, 2, 2, 3]))
