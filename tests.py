@@ -3,17 +3,21 @@
 # 3. Criar um método que converte uma lista de items em um estrutura JSON.
 
 from unittest import TestCase, mock, skip
+from xml2json import XMLToJson
 import xml2json
 
 
 class XMLToJsonTest(TestCase):
 
+    def setUp(self):
+        self.xml_json = XMLToJson()
+
     @mock.patch("xml2json.requests.get")
     def test_get_raw_data(self, mock_requests):
-        xml2json.get_raw_data("any path")
+        self.xml_json.get_raw_data("any path")
         mock_requests.assert_called_with("any path")
 
-    @mock.patch.object(xml2json, 'get_raw_data')
+    @mock.patch.object(XMLToJson, 'get_raw_data')
     def test_get_items(self, mock_get_raw_data):
         mock_get_raw_data.return_value = """
         <rss>
@@ -31,16 +35,16 @@ class XMLToJsonTest(TestCase):
             </channel>
         </rss>
         """
-        items = xml2json.get_items()
+        items = self.xml_json.get_items()
         self.assertIsInstance(items, list)
         self.assertEqual(3, len(items))
 
     def test_format_price_testcase_0(self):
-        price = xml2json.format_price("R$ 75,90")
+        price = self.xml_json.format_price("R$ 75,90")
         self.assertEqual("75.90", price)
 
     def test_format_price_testcase_1(self):
-        price = xml2json.format_price("$ 75,90")
+        price = self.xml_json.format_price("$ 75,90")
         self.assertEqual("75.90", price)
 
     def test_item_to_dict_expected_keys(self):
@@ -76,7 +80,7 @@ class XMLToJsonTest(TestCase):
         </item>
         """
         item = xml2json.BeautifulSoup(item, 'lxml')
-        dict_item = xml2json.item2dict(item)
+        dict_item = self.xml_json.item2dict(item)
         self.assertTrue(all(key in dict_item.keys() for key in expected_keys))
 
     @mock.patch.object(xml2json, 'get_items')
