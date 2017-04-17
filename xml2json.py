@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import json
+import sys
 
 class XMLToJson:
 
@@ -50,3 +51,15 @@ class XMLToJson:
             [self.item2dict(item) for item in items], ensure_ascii=False, indent=4
         )
         return json_string
+
+def main():
+    f = open('inventory.json', 'w')
+    try:
+        xml_to_json = XMLToJson(sys.argv[1])
+    except IndexError:
+        xml_to_json = XMLToJson()
+    f.write(xml_to_json.generate_json())
+    f.close()
+
+if __name__ == '__main__':
+    main()
