@@ -4,13 +4,16 @@ import json
 
 class XMLToJson:
 
+    def __init__(self, path=None):
+        p = "http://prognoostest.commercesuite.com.br/xml/xml.php?Chave==A3boNXZsd2bvdGfygjN0UDN"
+        self.path = path if path else p
+
     def get_raw_data(self, path):
         resp = requests.get(path)
         return resp.text
 
     def get_items(self):
-        path = "http://prognoostest.commercesuite.com.br/xml/xml.php?Chave==A3boNXZsd2bvdGfygjN0UDN"
-        raw_data = self.get_raw_data(path)
+        raw_data = self.get_raw_data(self.path)
         soup = BeautifulSoup(raw_data, 'lxml')
         return soup.select('item')
 
