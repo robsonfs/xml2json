@@ -12,10 +12,10 @@ class XMLToJson:
         resp = requests.get(path)
         return resp.text
 
-    def get_items(self):
+    def get_items(self, tag_name='item'):
         raw_data = self.get_raw_data(self.path)
         soup = BeautifulSoup(raw_data, 'lxml')
-        return soup.select('item')
+        return soup.select(tag_name)
 
     def format_price(self, string_price):
         # formatted_price = string_price.replace('R$ ', '').replace(',', '.')

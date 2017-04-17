@@ -18,7 +18,7 @@ class XMLToJsonTest(TestCase):
         mock_requests.assert_called_with("any path")
 
     @mock.patch.object(XMLToJson, 'get_raw_data')
-    def test_get_items(self, mock_get_raw_data):
+    def test_get_items_testcase0(self, mock_get_raw_data):
         mock_get_raw_data.return_value = """
         <rss>
             <channel>
@@ -38,6 +38,24 @@ class XMLToJsonTest(TestCase):
         items = self.xml_json.get_items()
         self.assertIsInstance(items, list)
         self.assertEqual(3, len(items))
+
+    @mock.patch.object(XMLToJson, 'get_raw_data')
+    def test_get_items_testcase1(self, mock_get_raw_data):
+        mock_get_raw_data.return_value = """
+        <rss>
+            <channel>
+                <title>Prognoos Test</title>
+                <product>
+                    <title>item 1</title>
+                </product>
+                <product>
+                    <title>item 2</title>
+                </product>
+            </channel>
+        </rss>
+        """
+        items = self.xml_json.get_items('product')
+        self.assertEqual(2, len(items))
 
     def test_format_price_testcase_0(self):
         price = self.xml_json.format_price("R$ 75,90")
