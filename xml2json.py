@@ -15,7 +15,7 @@ class XMLToJson:
 
     def get_items(self, tag_name='item'):
         raw_data = self.get_raw_data(self.path)
-        soup = BeautifulSoup(raw_data, 'lxml')
+        soup = BeautifulSoup(raw_data, 'html.parser')
         return soup.select(tag_name)
 
     def format_price(self, string_price):
