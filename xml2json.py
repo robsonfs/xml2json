@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import json
 
 def get_raw_data(path):
     resp = requests.get(path)
@@ -37,3 +38,10 @@ def item2dict(item):
     dict_item['opcional_2'] = ''
 
     return dict_item
+
+def generate_json():
+    items = get_items()
+    json_string = json.dumps(
+        [item2dict(item) for item in items], ensure_ascii=False, indent=4
+    )
+    return json_string

@@ -2,7 +2,7 @@
 # 2. Criar uma estrutura de dados para armazenar items
 # 3. Criar um método que converte uma lista de items em um estrutura JSON.
 
-from unittest import TestCase, mock
+from unittest import TestCase, mock, skip
 import xml2json
 
 
@@ -78,3 +78,12 @@ class XMLToJsonTest(TestCase):
         item = xml2json.BeautifulSoup(item, 'lxml')
         dict_item = xml2json.item2dict(item)
         self.assertTrue(all(key in dict_item.keys() for key in expected_keys))
+
+    @mock.patch.object(xml2json, 'get_items')
+    @mock.patch.object(xml2json, 'item2dict')
+    @skip("TODO: Test method generate_json")
+    def test_generate_json(self, mock_item2dict, mock_get_items):
+        # Recebe uma lista de items em formato bruto
+        # Retorna uma string json.
+        xml2json.generate_json()
+        mock_get_items.assert_called_with()
